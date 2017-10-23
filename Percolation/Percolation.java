@@ -49,22 +49,22 @@ public class Percolation {
        if(row == 1) {
            this.connect(index,0);
        }
-       if(row == this.gridSize) {
-           this.connect(index,this.gridSize*this.gridSize+1);
-       }
+       //if(row == this.gridSize) {
+           //this.connect(index,this.gridSize*this.gridSize+1);
+       //}
        
        if((nbindex=this.indexofGrid(row-1,col)) > 0 && isOpen(nbindex)) {
            this.connect(index,nbindex);
        }
        
         if((nbindex=this.indexofGrid(row+1,col)) > 0 && isOpen(nbindex)) {
-           this.connect(index,nbindex);
+            this.connect(index,nbindex);
        }      
         if((nbindex=this.indexofGrid(row,col-1)) > 0 && isOpen(nbindex)) {
-           this.connect(index,nbindex);
+            this.connect(index,nbindex);
        }   
         if((nbindex=this.indexofGrid(row,col+1)) > 0 && isOpen(nbindex)) {
-           this.connect(index,nbindex);
+            this.connect(index,nbindex);
        } 
    }
    
