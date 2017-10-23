@@ -6,6 +6,7 @@ public class Percolation {
     private boolean[] grids;
     // wuf
     final private WeightedQuickUnionUF wuf;
+    final private WeightedQuickUnionUF wufnb;
     
     private int m_numOfOpenSites;
     
@@ -18,6 +19,7 @@ public class Percolation {
        this.gridSize = n;
        this.grids = new boolean[n*n+2];
        this.wuf = new WeightedQuickUnionUF(n*n+2);
+       this.wufnb = new WeightedQuickUnionUF(n*n+1);
        m_numOfOpenSites =0;
    }
    
@@ -32,6 +34,9 @@ public class Percolation {
    
    private void connect(int i, int j) {
        this.wuf.union(i, j);
+       if(i <= gridSize*gridSize && j <= gridSize*gridSize) {
+           this.wufnb.union(i,j);
+       }
    }
    
    public    void open(int row, int col)    // open site (row, col) if it is not open already
@@ -49,9 +54,9 @@ public class Percolation {
        if(row == 1) {
            this.connect(index,0);
        }
-       //if(row == this.gridSize) {
-           //this.connect(index,this.gridSize*this.gridSize+1);
-       //}
+       if(row == this.gridSize) {
+           this.connect(index,this.gridSize*this.gridSize+1);
+       }
        
        if((nbindex=this.indexofGrid(row-1,col)) > 0 && isOpen(nbindex)) {
            this.connect(index,nbindex);
@@ -87,7 +92,7 @@ public class Percolation {
        if( index < 0) {
            throw new java.lang.IllegalArgumentException();
        }  
-       return this.wuf.connected(index,0);
+       return this.wufnb.connected(index,0);
    }
    
    public int numberOfOpenSites()       // number of open sites
